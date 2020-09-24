@@ -34,7 +34,7 @@ pipeline {
                              
                                 env.PATH = "${dockerHome}/bin:${env.PATH}"
                              
-                                def myDocker = docker.build("my-image:${env.BUILD_ID}")
+                                def myDocker = docker.build("my-image:${env.BUILD_ID}", ".")
                                       
                                 myDocker.inside {
                                       sh 'ls'
