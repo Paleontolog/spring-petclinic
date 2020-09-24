@@ -5,15 +5,16 @@ pipeline {
             agent {
                 node { 
 		   label 'java-docker-slave'
-       	         
+       	     
 		} 
             } 
             steps {
               git branch: 'main', credentialsId: 'git-creds', url: 'https://github.com/Paleontolog/spring-petclinic.git'
               sh 'ls'
               sh 'mvn --version'
-              sh 'mvn clean compile'
-              stash includes: '/target/spring-petclinic-2.3.0.BUILD-SNAPSHOT.jar', name: 'compiledJAR'
+              sh './mvnw package'
+              sh 'ls'
+              stash includes: 'target/**', name: 'compiledJAR'
               stash includes: 'Dockerfile', name: 'petcinic-jar-docker'
             }
         }
@@ -23,11 +24,11 @@ pipeline {
                 }
                  
                 steps {
-                    dir('tmp'){
-                                          
-                          sh 'ls'
+                  //  dir('tmp'){
+                                         
                           unstash 'petcinic-jar-docker'
                           unstash 'compiledJAR'
+                          sh 'ls'
                           script {
                                 def dockerHome = tool 'myDocker'
                              
@@ -39,7 +40,7 @@ pipeline {
                                       sh 'ls'
                                 }
 
-                   	 }
+               //    	 }
                     }
                }
         }
