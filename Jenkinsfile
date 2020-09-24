@@ -5,7 +5,7 @@ pipeline {
             agent {
                 node { 
 		   label 'java-docker-slave'
-       	           args '-v $HOME/.m2:/root/.m2'
+       	         
 		} 
             } 
             steps {
